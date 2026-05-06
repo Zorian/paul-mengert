@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paul K. Mengert — Tactical Smarts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#111010;
+  --charcoal:#1c1c1e;
+  --ink:#2a2520;
+  --text:#3d3530;
+  --muted:#8a7d74;
+  --cream:#faf7f2;
+  --warm:#f5ede0;
+  --pale:#fdf9f5;
+  --gold:#b8860b;
+  --gold-mid:#c9960c;
+  --gold-light:#e8b84b;
+  --gold-pale:#fdf4dc;
+  --gold-border:#d4a830;
+  --border:#e8ddd0;
+  --border-warm:#d4c4b0;
+  --white:#ffffff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--gold)}
+.container{max-width:1100px;margin:0 auto;padding:0 48px}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* EYEBROW */
+.ey{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ey-line{width:28px;height:1px;background:var(--gold)}
+.ey-txt{font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.ey.lt .ey-line{background:rgba(255,255,255,.35)}
+.ey.lt .ey-txt{color:rgba(255,255,255,.5)}
+
+/* TYPOGRAPHY */
+.display{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.8rem);font-weight:700;line-height:1.05;color:var(--charcoal)}
+.display em{font-style:italic;color:var(--gold-mid)}
+.h2{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--charcoal);line-height:1.12}
+.h2 em{font-style:italic;color:var(--gold-mid)}
+.h2.lt{color:white}.h2.lt em{color:rgba(255,255,255,.65)}
+.h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:500;color:var(--charcoal)}
+.body-t{font-size:.95rem;line-height:1.8;color:var(--text)}
+.body-t.mu{color:var(--muted)}
+.body-t.lt{color:rgba(255,255,255,.65)}
+
+/* BUTTONS */
+.btn-gold{display:inline-block;background:var(--gold);color:white;padding:14px 32px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s;border:none;cursor:pointer}
+.btn-gold:hover{background:var(--gold-mid);transform:translateY(-1px);box-shadow:0 8px 24px rgba(184,134,11,.3)}
+.btn-outline{display:inline-block;background:transparent;color:var(--charcoal);border:1.5px solid var(--border-warm);padding:13px 28px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-outline-lt{display:inline-block;background:transparent;color:white;border:1.5px solid rgba(255,255,255,.35);padding:13px 28px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s}
+.btn-outline-lt:hover{border-color:white;background:rgba(255,255,255,.08)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:66px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,247,242,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--charcoal);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-link{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--gold)}
+.nav-cta{background:var(--charcoal);color:white;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:9px 22px;border-radius:2px;text-decoration:none;transition:background .2s}
+.nav-cta:hover{background:var(--gold)}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--charcoal);display:flex;align-items:center;padding-top:66px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(184,134,11,.12) 0%,transparent 60%)}
+.hero-inner{display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;padding:80px 0;position:relative;z-index:1}
+.hero-for{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.hero-for-line{width:32px;height:1px;background:var(--gold)}
+.hero-for-txt{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.hero-title{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:700;line-height:1.06;color:white;margin-bottom:20px}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-body{font-size:.98rem;color:rgba(255,255,255,.6);line-height:1.82;margin-bottom:36px;max-width:480px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px}
+.hero-stats{display:flex;gap:40px;padding-top:32px;border-top:1px solid rgba(255,255,255,.1)}
+.hs-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--gold-light);line-height:1}
+.hs-label{font-size:.72rem;color:rgba(255,255,255,.4);margin-top:5px;line-height:1.4}
+
+/* HERO CARD */
+.hero-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;overflow:hidden;backdrop-filter:blur(8px)}
+.hero-photo{width:100%;height:420px;object-fit:cover;object-position:center top;display:block}
+.hero-card-foot{padding:22px 24px;border-top:1px solid rgba(255,255,255,.08)}
+.hcf-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:white;margin-bottom:4px}
+.hcf-title{font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.06em}
+.hcf-creds{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.cred-tag{font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(184,134,11,.4);color:var(--gold-light);border-radius:2px}
+
+/* TICKER */
+.ticker{background:var(--gold);padding:14px 0;overflow:hidden;position:relative}
+.ticker-inner{display:flex;gap:0;animation:ticker 30s linear infinite;white-space:nowrap}
+.ticker-inner:hover{animation-play-state:paused}
+.tick-item{display:flex;align-items:center;gap:14px;padding:0 28px;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.7);flex-shrink:0}
+.tick-dot{width:4px;height:4px;border-radius:50%;background:rgba(0,0,0,.4);flex-shrink:0}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ABOUT / BOOK */
+.about-section{padding:96px 0;background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.book-mockup{position:relative}
+.book-spine{width:28px;height:380px;background:linear-gradient(180deg,#2a1f0a 0%,#3d2d10 50%,#2a1f0a 100%);border-radius:2px 0 0 2px;position:absolute;left:0;top:0}
+.book-cover{width:260px;height:380px;background:linear-gradient(135deg,#1c1c1e 0%,#2a2520 60%,#1c1c1e 100%);margin-left:14px;border-radius:0 4px 4px 0;box-shadow:8px 8px 40px rgba(0,0,0,.4),inset -2px 0 8px rgba(0,0,0,.3);padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.book-cover::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold))}
+.book-cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold))}
+.bc-top{}
+.bc-author{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.bc-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:white;line-height:1.25;margin-bottom:8px}
+.bc-subtitle{font-size:.7rem;color:rgba(255,255,255,.45);line-height:1.5}
+.bc-mid{text-align:center}
+.bc-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:16px 0}
+.bc-badge{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:center}
+.bc-bottom{}
+.bc-pub{font-size:.58rem;color:rgba(255,255,255,.25);letter-spacing:.1em;text-transform:uppercase}
+.book-wrap{display:flex;align-items:flex-end;gap:0;padding:20px 0 20px 20px}
+.book-shadow{position:absolute;bottom:-16px;left:34px;width:260px;height:20px;background:radial-gradient(ellipse,rgba(0,0,0,.25) 0%,transparent 70%);filter:blur(4px)}
+.about-content .ey{margin-bottom:14px}
+.about-tagline{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--gold-mid);margin-bottom:20px;padding-left:14px;border-left:2px solid var(--gold)}
+.about-bio{font-size:.92rem;color:var(--text);line-height:1.85;margin-bottom:24px}
+.about-credentials{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+.cred-item{background:var(--warm);border:1px solid var(--border);border-radius:2px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
+.cred-icon{font-size:1rem;flex-shrink:0}
+.cred-text{font-size:.75rem;color:var(--text);line-height:1.4;font-weight:500}
+
+/* HUB */
+.hub-section{padding:96px 0;background:var(--charcoal)}
+.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.hub-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:28px 24px;text-decoration:none;display:flex;flex-direction:column;transition:all .3s;position:relative;overflow:hidden}
+.hub-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.hub-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.3);border-color:rgba(255,255,255,.18)}
+.hub-card:hover::before{transform:scaleX(1)}
+.hub-card-dark{background:rgba(184,134,11,.12);border-color:rgba(184,134,11,.3)}
+.hub-card-dark .hub-card-title{color:var(--gold-light)}
+.hub-card-dark .hub-card-desc{color:rgba(255,255,255,.5)}
+.hub-card-dark .hub-card-label{color:rgba(184,134,11,.7)}
+.hub-card-dark .hub-card-price{color:var(--gold-light)}
+.hub-card-dark::before{background:var(--gold-light)}
+.hub-card-free{background:rgba(255,255,255,.03);border-color:rgba(184,134,11,.2)}
+.hub-card-free::before{background:var(--gold)}
+.hub-card-icon{font-size:1.8rem;margin-bottom:12px}
+.hub-card-label{font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.hub-card-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:white;line-height:1.25;margin-bottom:10px}
+.hub-card-desc{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.6;flex:1;margin-bottom:14px}
+.hub-card-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.15);border:1px solid rgba(184,134,11,.3);border-radius:2px;padding:4px 10px;margin-bottom:10px;width:fit-content}
+.hub-card-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold-light);animation:pulse 1.5s ease-in-out infinite;flex-shrink:0}
+.hub-card-badge-txt{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light)}
+.hub-card-price{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:white;margin-bottom:10px}
+.hub-card-arrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.hub-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:28px 24px;transition:all .25s;text-decoration:none;display:block}
+.hub-card:hover{background:rgba(184,134,11,.08);border-color:rgba(184,134,11,.3);transform:translateY(-2px)}
+.hub-num{font-family:'Playfair Display',serif;font-size:.75rem;font-weight:700;color:var(--gold);letter-spacing:.1em;margin-bottom:12px}
+.hub-icon{font-size:1.4rem;margin-bottom:12px}
+.hub-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500;color:white;margin-bottom:8px}
+.hub-desc{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px}
+.hub-cta{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:6px}
+
+/* BOOK SECTION */
+.book-section{padding:96px 0;background:var(--warm)}
+.book-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px}
+.book-product{background:white;border:1px solid var(--border);border-radius:4px;padding:24px;transition:all .25s}
+.book-product:hover{box-shadow:0 8px 32px rgba(0,0,0,.08);border-color:var(--border-warm);transform:translateY(-2px)}
+.bp-type{font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.bp-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--charcoal);margin-bottom:6px}
+.bp-desc{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.bp-price{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--charcoal)}
+.bp-price span{font-size:.8rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400}
+.bp-btn{display:block;text-align:center;background:var(--charcoal);color:white;padding:11px;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;margin-top:14px;transition:background .2s}
+.bp-btn:hover{background:var(--gold)}
+
+/* SPEAKING */
+.speaking-section{padding:96px 0;background:var(--cream)}
+.speaking-logos{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.speak-item{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center}
+.speak-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--charcoal);margin-bottom:4px}
+.speak-sub{font-size:.7rem;color:var(--muted);line-height:1.4}
+.speaking-quote{background:var(--charcoal);border-radius:4px;padding:40px 48px;margin-top:28px;position:relative}
+.sq-mark{font-family:'Playfair Display',serif;font-size:5rem;color:var(--gold);opacity:.3;position:absolute;top:16px;left:32px;line-height:1}
+.sq-text{font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;color:white;line-height:1.7;position:relative;z-index:1;padding-left:8px}
+.sq-attr{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:14px;padding-left:8px}
+
+/* MASTERMIND */
+.mastermind-section{padding:96px 0;background:var(--charcoal)}
+.mastermind-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.mastermind-content .h2{color:white;margin-bottom:20px}
+.mastermind-content .body-t{color:rgba(255,255,255,.6);margin-bottom:32px}
+.mastermind-features{display:flex;flex-direction:column;gap:14px;margin-bottom:36px}
+.mf-item{display:flex;gap:14px;align-items:flex-start}
+.mf-dot{width:20px;height:20px;border-radius:50%;background:rgba(184,134,11,.2);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.mf-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.mf-text{font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.6}
+.mastermind-card{background:var(--warm);border-radius:4px;padding:36px;border:1px solid var(--border-warm)}
+.mc-label{font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.mc-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--charcoal);margin-bottom:6px}
+.mc-price{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--charcoal);line-height:1}
+.mc-period{font-size:.8rem;color:var(--muted);margin-bottom:20px}
+.mc-items{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.mc-item{font-size:.82rem;color:var(--text);display:flex;gap:8px;line-height:1.5}
+.mc-item::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0}
+
+/* ADVISORY */
+.advisory-section{padding:96px 0;background:linear-gradient(135deg,#1c1c1e 0%,#2a2520 100%);position:relative}
+.advisory-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(184,134,11,.08) 0%,transparent 60%)}
+.advisory-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.advisory-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.adv-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:24px}
+.adv-stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--gold-light);line-height:1;margin-bottom:6px}
+.adv-stat-label{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.4}
+
+/* CTA */
+.cta-section{padding:96px 0;background:var(--gold);position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(0,0,0,.03) 0,rgba(0,0,0,.03) 1px,transparent 0,transparent 50%);background-size:20px 20px}
+.cta-inner{text-align:center;position:relative;z-index:1}
+.cta-inner .h2{color:var(--charcoal)}
+.cta-inner .h2 em{color:rgba(28,28,30,.55)}
+.cta-inner .body-t{color:rgba(28,28,30,.65);max-width:480px;margin:14px auto 36px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-dark{display:inline-block;background:var(--charcoal);color:white;padding:14px 32px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s}
+.btn-dark:hover{background:var(--ink);transform:translateY(-1px)}
+
+/* FOOTER */
+footer{background:var(--charcoal);padding:32px 0;border-top:1px solid rgba(255,255,255,.06)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{font-family:'Playfair Display',serif;font-size:1rem;color:white}
+.footer-brand span{color:var(--gold)}
+.footer-mid{font-size:.7rem;color:rgba(255,255,255,.2);letter-spacing:.06em}
+.footer-built{font-size:.68rem;color:rgba(255,255,255,.18)}
+.footer-built em{color:rgba(255,255,255,.32);font-style:normal}
+
+/* CHAT WIDGET */
+.chat-bubble{position:fixed;bottom:28px;right:28px;width:54px;height:54px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;box-shadow:0 4px 20px rgba(184,134,11,.4);transition:transform .2s;font-size:1.3rem;border:none}
+.chat-bubble:hover{transform:scale(1.08)}
+.chat-window{position:fixed;bottom:94px;right:28px;width:350px;height:500px;background:white;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.2);z-index:1000;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border)}
+.chat-window.open{display:flex}
+.chat-head{background:var(--charcoal);padding:16px 18px;display:flex;align-items:center;gap:12px}
+.ch-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:white;font-family:'Playfair Display',serif}
+.ch-info .ch-name{font-size:.85rem;font-weight:600;color:white}
+.ch-info .ch-sub{font-size:.7rem;color:rgba(255,255,255,.5)}
+.ch-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:1.1rem;padding:4px}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:#fafafa}
+.msg{max-width:82%;padding:10px 14px;border-radius:12px;font-size:.82rem;line-height:1.55}
+.msg.bot{background:white;color:var(--text);align-self:flex-start;border:1px solid var(--border);border-radius:4px 12px 12px 12px}
+.msg.user{background:var(--charcoal);color:white;align-self:flex-end;border-radius:12px 4px 12px 12px}
+.chat-input-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:white}
+.chat-input{flex:1;border:1px solid var(--border);border-radius:4px;padding:9px 12px;font-size:.82rem;outline:none;font-family:'DM Sans',sans-serif}
+.chat-input:focus{border-color:var(--gold)}
+.chat-send{background:var(--gold);color:white;border:none;border-radius:4px;padding:9px 14px;cursor:pointer;font-size:.85rem;transition:background .2s}
+.chat-send:hover{background:var(--gold-mid)}
+.chat-quick{display:flex;gap:6px;padding:10px 12px 0;flex-wrap:wrap;background:#fafafa}
+.cq-btn{font-size:.68rem;background:white;border:1px solid var(--border);border-radius:12px;padding:5px 10px;cursor:pointer;transition:all .2s;color:var(--text)}
+.cq-btn:hover{border-color:var(--gold);color:var(--gold)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Paul K. <span>Mengert</span></a>
+  <div class="nav-links">
+    <a href="#book" class="nav-link">The Book</a>
+    <a href="#speaking" class="nav-link">Speaking</a>
+    <a href="#mastermind" class="nav-link">Mastermind</a>
+    <a href="#advisory" class="nav-link">Advisory</a>
+    <a href="#resources" class="nav-link">Resources</a>
+    <a href="#cta" class="nav-cta">Work With Paul</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-for reveal">
+          <div class="hero-for-line"></div>
+          <div class="hero-for-txt">Author · CEO · Speaker · Strategist</div>
+        </div>
+        <h1 class="hero-title reveal d1">Work Smart.<br>Live <em>Fully.</em><br>Lead with Purpose.</h1>
+        <p class="hero-body reveal d2">Founder of Association Management Group, Harvard Business School alumnus, and CAI Educator of the Year. Paul K. Mengert has spent 40 years mastering the art of building great businesses without sacrificing a great life.</p>
+        <div class="hero-ctas reveal d3">
+          <a href="#book" class="btn-gold">Get the Book</a>
+          <a href="#cta" class="btn-outline-lt">Work With Paul →</a>
+        </div>
+        <div class="hero-stats reveal d4">
+          <div><div class="hs-num">40+</div><div class="hs-label">Years in<br>business leadership</div></div>
+          <div><div class="hs-num">$5B+</div><div class="hs-label">Assets under<br>management</div></div>
+          <div><div class="hs-num">30k+</div><div class="hs-label">Property owners<br>served</div></div>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="hero-card">
+          <img src="assets/paul-photo.jpg" alt="Paul K. Mengert" class="hero-photo">
+          <div class="hero-card-foot">
+            <div class="hcf-name">Paul K. Mengert</div>
+            <div class="hcf-title">Founder & CEO, AMG · Author · Speaker</div>
+            <div class="hcf-creds">
+              <span class="cred-tag">Harvard Business School</span>
+              <span class="cred-tag">PCAM</span>
+              <span class="cred-tag">CAI Educator of the Year</span>
+              <span class="cred-tag">Order of the Long Leaf Pine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="tick-item">Harvard Business School Alumnus<span class="tick-dot"></span></span>
+    <span class="tick-item">CAI Educator of the Year<span class="tick-dot"></span></span>
+    <span class="tick-item">Founder & CEO, Association Management Group<span class="tick-dot"></span></span>
+    <span class="tick-item">Wake Forest Law School Faculty<span class="tick-dot"></span></span>
+    <span class="tick-item">Order of the Long Leaf Pine — NC Governor's Award<span class="tick-dot"></span></span>
+    <span class="tick-item">Licensed Commercial Pilot<span class="tick-dot"></span></span>
+    <span class="tick-item">PCAM · CMCA Designations<span class="tick-dot"></span></span>
+    <span class="tick-item">20 Years CAI National Senior Faculty<span class="tick-dot"></span></span>
+    <span class="tick-item">Harvard Business School Alumnus<span class="tick-dot"></span></span>
+    <span class="tick-item">CAI Educator of the Year<span class="tick-dot"></span></span>
+    <span class="tick-item">Founder & CEO, Association Management Group<span class="tick-dot"></span></span>
+    <span class="tick-item">Wake Forest Law School Faculty<span class="tick-dot"></span></span>
+    <span class="tick-item">Order of the Long Leaf Pine — NC Governor's Award<span class="tick-dot"></span></span>
+    <span class="tick-item">Licensed Commercial Pilot<span class="tick-dot"></span></span>
+    <span class="tick-item">PCAM · CMCA Designations<span class="tick-dot"></span></span>
+    <span class="tick-item">20 Years CAI National Senior Faculty<span class="tick-dot"></span></span>
+  </div>
+</div>
+
+<!-- ABOUT / BOOK -->
+<section class="about-section" id="book">
+  <div class="container">
+    <div class="about-grid">
+      <div class="book-wrap reveal">
+        <div class="book-spine"></div>
+        <div class="book-cover">
+          <div class="bc-top">
+            <div class="bc-author">Paul K. Mengert</div>
+            <div class="bc-title">Tactical Smarts</div>
+            <div class="bc-subtitle">Achieving Work-Life Balance</div>
+          </div>
+          <div class="bc-mid">
+            <div class="bc-divider"></div>
+            <div class="bc-badge">✦ New Release ✦</div>
+            <div class="bc-divider"></div>
+          </div>
+          <div class="bc-bottom">
+            <div class="bc-pub">by Paul K. Mengert · PCAM</div>
+          </div>
+        </div>
+        <div class="book-shadow"></div>
+      </div>
+      <div class="about-content reveal d2">
+        <div class="ey"><div class="ey-line"></div><div class="ey-txt">The Book</div></div>
+        <h2 class="h2" style="margin-bottom:14px">Tactical Smarts:<br><em>Achieving Work-Life Balance</em></h2>
+        <div class="about-tagline">"Constructive, down-to-earth advice on how to effectively manage professional and personal demands."</div>
+        <p class="about-bio">After four decades building one of the Carolinas' most respected companies, Paul Mengert has distilled the hard-won lessons of sustainable high performance into a book every ambitious professional needs. Not theory — real strategies from someone who has actually done it.</p>
+        <p class="about-bio">From managing $5 billion in community assets to teaching at Harvard Business School and Wake Forest Law, flying charity missions as a licensed pilot, and raising a family — Paul has cracked the code on how to win at work without losing everything else.</p>
+        <div class="about-credentials">
+          <div class="cred-item"><div class="cred-icon">🎓</div><div class="cred-text">Harvard Business School Alumnus (OPM)</div></div>
+          <div class="cred-item"><div class="cred-icon">🏆</div><div class="cred-text">CAI Educator of the Year</div></div>
+          <div class="cred-item"><div class="cred-icon">🌲</div><div class="cred-text">Order of the Long Leaf Pine — NC Governor</div></div>
+          <div class="cred-item"><div class="cred-icon">✈️</div><div class="cred-text">Licensed Pilot · Angel Flight Missions</div></div>
+        </div>
+        <a href="#cta" class="btn-gold">Pre-Order the Book →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA HUB -->
+<section class="hub-section" id="resources">
+  <div class="container">
+    <div class="ey lt reveal" style="justify-content:center"><div class="ey-line"></div><div class="ey-txt">Work With Paul</div><div class="ey-line"></div></div>
+    <h2 class="h2 lt reveal d1" style="text-align:center;margin-bottom:0">Six ways to go deeper<br><em>with Paul's work.</em></h2>
+    <div class="hub-grid">
+      <a href="#book" class="hub-card reveal">
+        <div class="hub-card-icon">📖</div>
+        <div class="hub-card-label">The Book</div>
+        <div class="hub-card-title">Tactical Smarts</div>
+        <div class="hub-card-desc">The complete framework for work-life mastery. Hardcover, digital and audio editions available.</div>
+        <div class="hub-card-price">From $17</div>
+        <div class="hub-card-arrow">Order Now →</div>
+      </a>
+      <a href="#masterclass" class="hub-card reveal d1">
+        <div class="hub-card-icon">🎤</div>
+        <div class="hub-card-label">Masterclass</div>
+        <div class="hub-card-title">The Tactical Smarts Masterclass</div>
+        <div class="hub-card-badge"><span class="hub-card-badge-dot"></span><span class="hub-card-badge-txt">50 seats only per event</span></div>
+        <div class="hub-card-desc">A live quarterly event with Paul. 3 hours, 50 seats maximum, replay included.</div>
+        <div class="hub-card-price">$297 / session</div>
+        <div class="hub-card-arrow">Book a Seat →</div>
+      </a>
+      <a href="#mastermind" class="hub-card reveal d2">
+        <div class="hub-card-icon">👥</div>
+        <div class="hub-card-label">Mastermind</div>
+        <div class="hub-card-title">The Tactical Smarts Circle</div>
+        <div class="hub-card-badge"><span class="hub-card-badge-dot"></span><span class="hub-card-badge-txt">Only 15 seats total</span></div>
+        <div class="hub-card-desc">A private group for senior leaders. Monthly live sessions with Paul. Carefully curated.</div>
+        <div class="hub-card-price">$597 / month</div>
+        <div class="hub-card-arrow">Apply Now →</div>
+      </a>
+      <a href="#advisory" class="hub-card hub-card-dark reveal d3">
+        <div class="hub-card-icon">🤝</div>
+        <div class="hub-card-label">1:1 Advisory</div>
+        <div class="hub-card-title">Executive Advisory with Paul</div>
+        <div class="hub-card-badge"><span class="hub-card-badge-dot"></span><span class="hub-card-badge-txt">Max 5 clients only</span></div>
+        <div class="hub-card-desc">A private advisory relationship. Direct access to 40 years of experience. Deeply personal.</div>
+        <div class="hub-card-price">$2,000 / month</div>
+        <div class="hub-card-arrow">Apply →</div>
+      </a>
+      <a href="#speaking" class="hub-card reveal d4">
+        <div class="hub-card-icon">🎙</div>
+        <div class="hub-card-label">Speaking</div>
+        <div class="hub-card-title">Keynote & Corporate Speaking</div>
+        <div class="hub-card-desc">Paul speaks to executive teams, law schools and leadership conferences. Enquire for availability.</div>
+        <div class="hub-card-price">Fee on request</div>
+        <div class="hub-card-arrow">Enquire →</div>
+      </a>
+      <a href="#resources" class="hub-card hub-card-free reveal d5">
+        <div class="hub-card-icon">🎁</div>
+        <div class="hub-card-label">Free</div>
+        <div class="hub-card-title">Free Work-Life Balance Toolkit</div>
+        <div class="hub-card-desc">Paul's Work-Life Balance Assessment — identify exactly where your life is out of alignment. Download instantly.</div>
+        <div class="hub-card-price">Free</div>
+        <div class="hub-card-arrow">Download Free →</div>
+      </a>
+    </div>
+html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paul K. Mengert — Tactical Smarts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#111010;
+  --charcoal:#1c1c1e;
+  --ink:#2a2520;
+  --text:#3d3530;
+  --muted:#8a7d74;
+  --cream:#faf7f2;
+  --warm:#f5ede0;
+  --pale:#fdf9f5;
+  --gold:#b8860b;
+  --gold-mid:#c9960c;
+  --gold-light:#e8b84b;
+  --gold-pale:#fdf4dc;
+  --gold-border:#d4a830;
+  --border:#e8ddd0;
+  --border-warm:#d4c4b0;
+  --white:#ffffff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--gold)}
+.container{max-width:1100px;margin:0 auto;padding:0 48px}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* EYEBROW */
+.ey{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ey-line{width:28px;height:1px;background:var(--gold)}
+.ey-txt{font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.ey.lt .ey-line{background:rgba(255,255,255,.35)}
+.ey.lt .ey-txt{color:rgba(255,255,255,.5)}
+
+/* TYPOGRAPHY */
+.display{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.8rem);font-weight:700;line-height:1.05;color:var(--charcoal)}
+.display em{font-style:italic;color:var(--gold-mid)}
+.h2{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--charcoal);line-height:1.12}
+.h2 em{font-style:italic;color:var(--gold-mid)}
+.h2.lt{color:white}.h2.lt em{color:rgba(255,255,255,.65)}
+.h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:500;color:var(--charcoal)}
+.body-t{font-size:.95rem;line-height:1.8;color:var(--text)}
+.body-t.mu{color:var(--muted)}
+.body-t.lt{color:rgba(255,255,255,.65)}
+
+/* BUTTONS */
+.btn-gold{display:inline-block;background:var(--gold);color:white;padding:14px 32px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s;border:none;cursor:pointer}
+.btn-gold:hover{background:var(--gold-mid);transform:translateY(-1px);box-shadow:0 8px 24px rgba(184,134,11,.3)}
+.btn-outline{display:inline-block;background:transparent;color:var(--charcoal);border:1.5px solid var(--border-warm);padding:13px 28px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-outline-lt{display:inline-block;background:transparent;color:white;border:1.5px solid rgba(255,255,255,.35);padding:13px 28px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s}
+.btn-outline-lt:hover{border-color:white;background:rgba(255,255,255,.08)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:66px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,247,242,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--charcoal);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-link{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--gold)}
+.nav-cta{background:var(--charcoal);color:white;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:9px 22px;border-radius:2px;text-decoration:none;transition:background .2s}
+.nav-cta:hover{background:var(--gold)}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--charcoal);display:flex;align-items:center;padding-top:66px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(184,134,11,.12) 0%,transparent 60%)}
+.hero-inner{display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;padding:80px 0;position:relative;z-index:1}
+.hero-for{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.hero-for-line{width:32px;height:1px;background:var(--gold)}
+.hero-for-txt{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.hero-title{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:700;line-height:1.06;color:white;margin-bottom:20px}
+.hero-title em{font-style:italic;color:var(--gold-light)}
+.hero-body{font-size:.98rem;color:rgba(255,255,255,.6);line-height:1.82;margin-bottom:36px;max-width:480px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px}
+.hero-stats{display:flex;gap:40px;padding-top:32px;border-top:1px solid rgba(255,255,255,.1)}
+.hs-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--gold-light);line-height:1}
+.hs-label{font-size:.72rem;color:rgba(255,255,255,.4);margin-top:5px;line-height:1.4}
+
+/* HERO CARD */
+.hero-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;overflow:hidden;backdrop-filter:blur(8px)}
+.hero-photo{width:100%;height:420px;object-fit:cover;object-position:center top;display:block}
+.hero-card-foot{padding:22px 24px;border-top:1px solid rgba(255,255,255,.08)}
+.hcf-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:white;margin-bottom:4px}
+.hcf-title{font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.06em}
+.hcf-creds{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.cred-tag{font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(184,134,11,.4);color:var(--gold-light);border-radius:2px}
+
+/* TICKER */
+.ticker{background:var(--gold);padding:14px 0;overflow:hidden;position:relative}
+.ticker-inner{display:flex;gap:0;animation:ticker 30s linear infinite;white-space:nowrap}
+.ticker-inner:hover{animation-play-state:paused}
+.tick-item{display:flex;align-items:center;gap:14px;padding:0 28px;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.7);flex-shrink:0}
+.tick-dot{width:4px;height:4px;border-radius:50%;background:rgba(0,0,0,.4);flex-shrink:0}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ABOUT / BOOK */
+.about-section{padding:96px 0;background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.book-mockup{position:relative}
+.book-spine{width:28px;height:380px;background:linear-gradient(180deg,#2a1f0a 0%,#3d2d10 50%,#2a1f0a 100%);border-radius:2px 0 0 2px;position:absolute;left:0;top:0}
+.book-cover{width:260px;height:380px;background:linear-gradient(135deg,#1c1c1e 0%,#2a2520 60%,#1c1c1e 100%);margin-left:14px;border-radius:0 4px 4px 0;box-shadow:8px 8px 40px rgba(0,0,0,.4),inset -2px 0 8px rgba(0,0,0,.3);padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.book-cover::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold))}
+.book-cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold))}
+.bc-top{}
+.bc-author{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.bc-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:white;line-height:1.25;margin-bottom:8px}
+.bc-subtitle{font-size:.7rem;color:rgba(255,255,255,.45);line-height:1.5}
+.bc-mid{text-align:center}
+.bc-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:16px 0}
+.bc-badge{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:center}
+.bc-bottom{}
+.bc-pub{font-size:.58rem;color:rgba(255,255,255,.25);letter-spacing:.1em;text-transform:uppercase}
+.book-wrap{display:flex;align-items:flex-end;gap:0;padding:20px 0 20px 20px}
+.book-shadow{position:absolute;bottom:-16px;left:34px;width:260px;height:20px;background:radial-gradient(ellipse,rgba(0,0,0,.25) 0%,transparent 70%);filter:blur(4px)}
+.about-content .ey{margin-bottom:14px}
+.about-tagline{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--gold-mid);margin-bottom:20px;padding-left:14px;border-left:2px solid var(--gold)}
+.about-bio{font-size:.92rem;color:var(--text);line-height:1.85;margin-bottom:24px}
+.about-credentials{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+.cred-item{background:var(--warm);border:1px solid var(--border);border-radius:2px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
+.cred-icon{font-size:1rem;flex-shrink:0}
+.cred-text{font-size:.75rem;color:var(--text);line-height:1.4;font-weight:500}
+
+/* HUB */
+.hub-section{padding:96px 0;background:var(--charcoal)}
+.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.hub-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:28px 24px;text-decoration:none;display:flex;flex-direction:column;transition:all .3s;position:relative;overflow:hidden}
+.hub-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.hub-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.3);border-color:rgba(255,255,255,.18)}
+.hub-card:hover::before{transform:scaleX(1)}
+.hub-card-dark{background:rgba(184,134,11,.12);border-color:rgba(184,134,11,.3)}
+.hub-card-dark .hub-card-title{color:var(--gold-light)}
+.hub-card-dark .hub-card-desc{color:rgba(255,255,255,.5)}
+.hub-card-dark .hub-card-label{color:rgba(184,134,11,.7)}
+.hub-card-dark .hub-card-price{color:var(--gold-light)}
+.hub-card-dark::before{background:var(--gold-light)}
+.hub-card-free{background:rgba(255,255,255,.03);border-color:rgba(184,134,11,.2)}
+.hub-card-free::before{background:var(--gold)}
+.hub-card-icon{font-size:1.8rem;margin-bottom:12px}
+.hub-card-label{font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.hub-card-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:500;color:white;line-height:1.25;margin-bottom:10px}
+.hub-card-desc{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.6;flex:1;margin-bottom:14px}
+.hub-card-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.15);border:1px solid rgba(184,134,11,.3);border-radius:2px;padding:4px 10px;margin-bottom:10px;width:fit-content}
+.hub-card-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold-light);animation:pulse 1.5s ease-in-out infinite;flex-shrink:0}
+.hub-card-badge-txt{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light)}
+.hub-card-price{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:white;margin-bottom:10px}
+.hub-card-arrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.hub-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:28px 24px;transition:all .25s;text-decoration:none;display:block}
+.hub-card:hover{background:rgba(184,134,11,.08);border-color:rgba(184,134,11,.3);transform:translateY(-2px)}
+.hub-num{font-family:'Playfair Display',serif;font-size:.75rem;font-weight:700;color:var(--gold);letter-spacing:.1em;margin-bottom:12px}
+.hub-icon{font-size:1.4rem;margin-bottom:12px}
+.hub-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500;color:white;margin-bottom:8px}
+.hub-desc{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px}
+.hub-cta{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:6px}
+
+/* BOOK SECTION */
+.book-section{padding:96px 0;background:var(--warm)}
+.book-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px}
+.book-product{background:white;border:1px solid var(--border);border-radius:4px;padding:24px;transition:all .25s}
+.book-product:hover{box-shadow:0 8px 32px rgba(0,0,0,.08);border-color:var(--border-warm);transform:translateY(-2px)}
+.bp-type{font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.bp-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--charcoal);margin-bottom:6px}
+.bp-desc{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.bp-price{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--charcoal)}
+.bp-price span{font-size:.8rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400}
+.bp-btn{display:block;text-align:center;background:var(--charcoal);color:white;padding:11px;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;margin-top:14px;transition:background .2s}
+.bp-btn:hover{background:var(--gold)}
+
+/* SPEAKING */
+.speaking-section{padding:96px 0;background:var(--cream)}
+.speaking-logos{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.speak-item{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center}
+.speak-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--charcoal);margin-bottom:4px}
+.speak-sub{font-size:.7rem;color:var(--muted);line-height:1.4}
+.speaking-quote{background:var(--charcoal);border-radius:4px;padding:40px 48px;margin-top:28px;position:relative}
+.sq-mark{font-family:'Playfair Display',serif;font-size:5rem;color:var(--gold);opacity:.3;position:absolute;top:16px;left:32px;line-height:1}
+.sq-text{font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;color:white;line-height:1.7;position:relative;z-index:1;padding-left:8px}
+.sq-attr{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:14px;padding-left:8px}
+
+/* MASTERMIND */
+.mastermind-section{padding:96px 0;background:var(--charcoal)}
+.mastermind-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.mastermind-content .h2{color:white;margin-bottom:20px}
+.mastermind-content .body-t{color:rgba(255,255,255,.6);margin-bottom:32px}
+.mastermind-features{display:flex;flex-direction:column;gap:14px;margin-bottom:36px}
+.mf-item{display:flex;gap:14px;align-items:flex-start}
+.mf-dot{width:20px;height:20px;border-radius:50%;background:rgba(184,134,11,.2);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.mf-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.mf-text{font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.6}
+.mastermind-card{background:var(--warm);border-radius:4px;padding:36px;border:1px solid var(--border-warm)}
+.mc-label{font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.mc-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--charcoal);margin-bottom:6px}
+.mc-price{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--charcoal);line-height:1}
+.mc-period{font-size:.8rem;color:var(--muted);margin-bottom:20px}
+.mc-items{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.mc-item{font-size:.82rem;color:var(--text);display:flex;gap:8px;line-height:1.5}
+.mc-item::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0}
+
+/* ADVISORY */
+.advisory-section{padding:96px 0;background:linear-gradient(135deg,#1c1c1e 0%,#2a2520 100%);position:relative}
+.advisory-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(184,134,11,.08) 0%,transparent 60%)}
+.advisory-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.advisory-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.adv-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:24px}
+.adv-stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--gold-light);line-height:1;margin-bottom:6px}
+.adv-stat-label{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.4}
+
+/* CTA */
+.cta-section{padding:96px 0;background:var(--gold);position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(0,0,0,.03) 0,rgba(0,0,0,.03) 1px,transparent 0,transparent 50%);background-size:20px 20px}
+.cta-inner{text-align:center;position:relative;z-index:1}
+.cta-inner .h2{color:var(--charcoal)}
+.cta-inner .h2 em{color:rgba(28,28,30,.55)}
+.cta-inner .body-t{color:rgba(28,28,30,.65);max-width:480px;margin:14px auto 36px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-dark{display:inline-block;background:var(--charcoal);color:white;padding:14px 32px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s}
+.btn-dark:hover{background:var(--ink);transform:translateY(-1px)}
+
+/* FOOTER */
+footer{background:var(--charcoal);padding:32px 0;border-top:1px solid rgba(255,255,255,.06)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{font-family:'Playfair Display',serif;font-size:1rem;color:white}
+.footer-brand span{color:var(--gold)}
+.footer-mid{font-size:.7rem;color:rgba(255,255,255,.2);letter-spacing:.06em}
+.footer-built{font-size:.68rem;color:rgba(255,255,255,.18)}
+.footer-built em{color:rgba(255,255,255,.32);font-style:normal}
+
+/* CHAT WIDGET */
+.chat-bubble{position:fixed;bottom:28px;right:28px;width:54px;height:54px;border-radius:50%;background:var(--gold);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;box-shadow:0 4px 20px rgba(184,134,11,.4);transition:transform .2s;font-size:1.3rem;border:none}
+.chat-bubble:hover{transform:scale(1.08)}
+.chat-window{position:fixed;bottom:94px;right:28px;width:350px;height:500px;background:white;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.2);z-index:1000;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border)}
+.chat-window.open{display:flex}
+.chat-head{background:var(--charcoal);padding:16px 18px;display:flex;align-items:center;gap:12px}
+.ch-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:white;font-family:'Playfair Display',serif}
+.ch-info .ch-name{font-size:.85rem;font-weight:600;color:white}
+.ch-info .ch-sub{font-size:.7rem;color:rgba(255,255,255,.5)}
+.ch-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:1.1rem;padding:4px}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:#fafafa}
+.msg{max-width:82%;padding:10px 14px;border-radius:12px;font-size:.82rem;line-height:1.55}
+.msg.bot{background:white;color:var(--text);align-self:flex-start;border:1px solid var(--border);border-radius:4px 12px 12px 12px}
+.msg.user{background:var(--charcoal);color:white;align-self:flex-end;border-radius:12px 4px 12px 12px}
+.chat-input-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:white}
+.chat-input{flex:1;border:1px solid var(--border);border-radius:4px;padding:9px 12px;font-size:.82rem;outline:none;font-family:'DM Sans',sans-serif}
+.chat-input:focus{border-color:var(--gold)}
+.chat-send{background:var(--gold);color:white;border:none;border-radius:4px;padding:9px 14px;cursor:pointer;font-size:.85rem;transition:background .2s}
+.chat-send:hover{background:var(--gold-mid)}
+.chat-quick{display:flex;gap:6px;padding:10px 12px 0;flex-wrap:wrap;background:#fafafa}
+.cq-btn{font-size:.68rem;background:white;border:1px solid var(--border);border-radius:12px;padding:5px 10px;cursor:pointer;transition:all .2s;color:var(--text)}
+.cq-btn:hover{border-color:var(--gold);color:var(--gold)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Paul K. <span>Mengert</span></a>
+  <div class="nav-links">
+    <a href="#book" class="nav-link">The Book</a>
+    <a href="#speaking" class="nav-link">Speaking</a>
+    <a href="#mastermind" class="nav-link">Mastermind</a>
+    <a href="#advisory" class="nav-link">Advisory</a>
+    <a href="#resources" class="nav-link">Resources</a>
+    <a href="#cta" class="nav-cta">Work With Paul</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-for reveal">
+          <div class="hero-for-line"></div>
+          <div class="hero-for-txt">Author · CEO · Speaker · Strategist</div>
+        </div>
+        <h1 class="hero-title reveal d1">Work Smart.<br>Live <em>Fully.</em><br>Lead with Purpose.</h1>
+        <p class="hero-body reveal d2">Founder of Association Management Group, Harvard Business School alumnus, and CAI Educator of the Year. Paul K. Mengert has spent 40 years mastering the art of building great businesses without sacrificing a great life.</p>
+        <div class="hero-ctas reveal d3">
+          <a href="#book" class="btn-gold">Get the Book</a>
+          <a href="#cta" class="btn-outline-lt">Work With Paul →</a>
+        </div>
+        <div class="hero-stats reveal d4">
+          <div><div class="hs-num">40+</div><div class="hs-label">Years in<br>business leadership</div></div>
+          <div><div class="hs-num">$5B+</div><div class="hs-label">Assets under<br>management</div></div>
+          <div><div class="hs-num">30k+</div><div class="hs-label">Property owners<br>served</div></div>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="hero-card">
+          <img src="assets/paul-photo.jpg" alt="Paul K. Mengert" class="hero-photo">
+          <div class="hero-card-foot">
+            <div class="hcf-name">Paul K. Mengert</div>
+            <div class="hcf-title">Founder & CEO, AMG · Author · Speaker</div>
+            <div class="hcf-creds">
+              <span class="cred-tag">Harvard Business School</span>
+              <span class="cred-tag">PCAM</span>
+              <span class="cred-tag">CAI Educator of the Year</span>
+              <span class="cred-tag">Order of the Long Leaf Pine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="tick-item">Harvard Business School Alumnus<span class="tick-dot"></span></span>
+    <span class="tick-item">CAI Educator of the Year<span class="tick-dot"></span></span>
+    <span class="tick-item">Founder & CEO, Association Management Group<span class="tick-dot"></span></span>
+    <span class="tick-item">Wake Forest Law School Faculty<span class="tick-dot"></span></span>
+    <span class="tick-item">Order of the Long Leaf Pine — NC Governor's Award<span class="tick-dot"></span></span>
+    <span class="tick-item">Licensed Commercial Pilot<span class="tick-dot"></span></span>
+    <span class="tick-item">PCAM · CMCA Designations<span class="tick-dot"></span></span>
+    <span class="tick-item">20 Years CAI National Senior Faculty<span class="tick-dot"></span></span>
+    <span class="tick-item">Harvard Business School Alumnus<span class="tick-dot"></span></span>
+    <span class="tick-item">CAI Educator of the Year<span class="tick-dot"></span></span>
+    <span class="tick-item">Founder & CEO, Association Management Group<span class="tick-dot"></span></span>
+    <span class="tick-item">Wake Forest Law School Faculty<span class="tick-dot"></span></span>
+    <span class="tick-item">Order of the Long Leaf Pine — NC Governor's Award<span class="tick-dot"></span></span>
+    <span class="tick-item">Licensed Commercial Pilot<span class="tick-dot"></span></span>
+    <span class="tick-item">PCAM · CMCA Designations<span class="tick-dot"></span></span>
+    <span class="tick-item">20 Years CAI National Senior Faculty<span class="tick-dot"></span></span>
+  </div>
+</div>
+
+<!-- ABOUT / BOOK -->
+<section class="about-section" id="book">
+  <div class="container">
+    <div class="about-grid">
+      <div class="book-wrap reveal">
+        <div class="book-spine"></div>
+        <div class="book-cover">
+          <div class="bc-top">
+            <div class="bc-author">Paul K. Mengert</div>
+            <div class="bc-title">Tactical Smarts</div>
+            <div class="bc-subtitle">Achieving Work-Life Balance</div>
+          </div>
+          <div class="bc-mid">
+            <div class="bc-divider"></div>
+            <div class="bc-badge">✦ New Release ✦</div>
+            <div class="bc-divider"></div>
+          </div>
+          <div class="bc-bottom">
+            <div class="bc-pub">by Paul K. Mengert · PCAM</div>
+          </div>
+        </div>
+        <div class="book-shadow"></div>
+      </div>
+      <div class="about-content reveal d2">
+        <div class="ey"><div class="ey-line"></div><div class="ey-txt">The Book</div></div>
+        <h2 class="h2" style="margin-bottom:14px">Tactical Smarts:<br><em>Achieving Work-Life Balance</em></h2>
+        <div class="about-tagline">"Constructive, down-to-earth advice on how to effectively manage professional and personal demands."</div>
+        <p class="about-bio">After four decades building one of the Carolinas' most respected companies, Paul Mengert has distilled the hard-won lessons of sustainable high performance into a book every ambitious professional needs. Not theory — real strategies from someone who has actually done it.</p>
+        <p class="about-bio">From managing $5 billion in community assets to teaching at Harvard Business School and Wake Forest Law, flying charity missions as a licensed pilot, and raising a family — Paul has cracked the code on how to win at work without losing everything else.</p>
+        <div class="about-credentials">
+          <div class="cred-item"><div class="cred-icon">🎓</div><div class="cred-text">Harvard Business School Alumnus (OPM)</div></div>
+          <div class="cred-item"><div class="cred-icon">🏆</div><div class="cred-text">CAI Educator of the Year</div></div>
+          <div class="cred-item"><div class="cred-icon">🌲</div><div class="cred-text">Order of the Long Leaf Pine — NC Governor</div></div>
+          <div class="cred-item"><div class="cred-icon">✈️</div><div class="cred-text">Licensed Pilot · Angel Flight Missions</div></div>
+        </div>
+        <a href="#cta" class="btn-gold">Pre-Order the Book →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA HUB -->
+<section class="hub-section" id="resources">
+  <div class="container">
+    <div class="ey lt reveal" style="justify-content:center"><div class="ey-line"></div><div class="ey-txt">Work With Paul</div><div class="ey-line"></div></div>
+    <h2 class="h2 lt reveal d1" style="text-align:center;margin-bottom:0">Six ways to go deeper<br><em>with Paul's work.</em></h2>
+    <div class="hub-row-top">
+      <a href="#book" class="hub-card reveal">
+        <div class="hub-num">01</div>
+        <div class="hub-icon">📖</div>
+        <div class="hub-title">Get the Book</div>
+        <div class="hub-desc">Tactical Smarts — the complete framework for work-life mastery. Available in hardcover, digital, and audio.</div>
+        <div class="hub-cta">Order Now →</div>
+      </a>
+      <a href="#resources" class="hub-card reveal d1">
+        <div class="hub-num">02</div>
+        <div class="hub-icon">📋</div>
+        <div class="hub-title">Free Toolkit</div>
+        <div class="hub-desc">Download Paul's Work-Life Balance Assessment — identify exactly where your life is out of alignment. Free instantly.</div>
+        <div class="hub-cta">Download Free →</div>
+      </a>
+    </div>
+    <div class="hub-row-bot">
+      <a href="#speaking" class="hub-card reveal d2">
+        <div class="hub-num">03</div>
+        <div class="hub-icon">🎤</div>
+        <div class="hub-title">Book Paul to Speak</div>
+        <div class="hub-desc">Keynotes and executive workshops for conferences, law schools, business programmes, and corporate events.</div>
+        <div class="hub-cta">Speaking Enquiry →</div>
+      </a>
+      <a href="#mastermind" class="hub-card reveal d3" style="border-color:rgba(184,134,11,.25)">
+        <div class="hub-num">04</div>
+        <div class="hub-icon">👥</div>
+        <div class="hub-title">Join the Mastermind</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.15);border:1px solid rgba(184,134,11,.3);border-radius:2px;padding:4px 10px;margin-bottom:10px">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--gold-light);display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>
+          <span style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light)">Only 15 seats total</span>
+        </div>
+        <div class="hub-desc">A private group for senior leaders. Monthly live sessions with Paul. Maximum 15 members — intimate by design.</div>
+        <div class="hub-cta">Apply Now →</div>
+      </a>
+      <a href="#advisory" class="hub-card reveal d4">
+        <div class="hub-num">05</div>
+        <div class="hub-icon">🤝</div>
+        <div class="hub-title">1:1 Advisory</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.15);border:1px solid rgba(184,134,11,.3);border-radius:2px;padding:4px 10px;margin-bottom:10px">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--gold-light);display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>
+          <span style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light)">Max 5 clients only</span>
+        </div>
+        <div class="hub-desc">Direct personal access to Paul for executives who want private, ongoing strategic guidance.</div>
+        <div class="hub-cta">Enquire →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="book-section">
+  <div class="container">
+    <div class="ey reveal"><div class="ey-line"></div><div class="ey-txt">Resources & Products</div></div>
+    <h2 class="h2 reveal d1">Everything you need to<br><em>implement the framework.</em></h2>
+    <div class="book-section-grid">
+      <div class="book-product reveal">
+        <div class="bp-type">Digital Download</div>
+        <div class="bp-title">Tactical Smarts — Ebook Edition</div>
+        <div class="bp-desc">The complete book in digital format. Start reading in minutes.</div>
+        <div class="bp-price">$17 <span>one-time</span></div>
+        <a href="#cta" class="bp-btn">Get the Ebook</a>
+      </div>
+      <div class="book-product reveal d1">
+        <div class="bp-type">Toolkit</div>
+        <div class="bp-title">Work-Life Balance Assessment & Action Plan</div>
+        <div class="bp-desc">Templates, scorecards and worksheets to audit your life and build your 90-day realignment plan.</div>
+        <div class="bp-price">$97 <span>one-time</span></div>
+        <a href="#cta" class="bp-btn">Get the Toolkit</a>
+      </div>
+      <div class="book-product reveal d2">
+        <div class="bp-type">Online Course</div>
+        <div class="bp-title">Tactical Smarts — Self-Paced Programme</div>
+        <div class="bp-desc">6 modules, 40 years of wisdom. Go from overwhelmed to in control at your own pace.</div>
+        <div class="bp-price">$297 <span>one-time</span></div>
+        <a href="#cta" class="bp-btn">Enrol Now</a>
+      </div>
+      <div class="book-product reveal d3" style="border-color:var(--gold);background:var(--gold-pale)">
+        <div class="bp-type" style="color:var(--gold)">Deep Dive · Most Popular</div>
+        <div class="bp-title">The Leadership Mastery Course</div>
+        <div class="bp-desc">Paul's complete leadership and management framework. Advanced strategies for senior leaders and executives.</div>
+        <div class="bp-price">$497 <span>one-time</span></div>
+        <a href="#cta" class="bp-btn" style="background:var(--gold)">Enrol Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPEAKING -->
+<section class="speaking-section" id="speaking">
+  <div class="container">
+    <div class="ey reveal"><div class="ey-line"></div><div class="ey-txt">Speaking</div></div>
+    <h2 class="h2 reveal d1">A voice institutions<br><em>trust and return to.</em></h2>
+    <div class="speaking-logos">
+      <div class="speak-item reveal">
+        <div class="speak-name">Wake Forest</div>
+        <div class="speak-sub">School of Law<br>Regular Faculty</div>
+      </div>
+      <div class="speak-item reveal d1">
+        <div class="speak-name">Harvard</div>
+        <div class="speak-sub">Business School<br>Alumni Programme</div>
+      </div>
+      <div class="speak-item reveal d2">
+        <div class="speak-name">Elon Law</div>
+        <div class="speak-sub">School of Law<br>Guest Lecturer</div>
+      </div>
+      <div class="speak-item reveal d3">
+        <div class="speak-name">UNC Greensboro</div>
+        <div class="speak-sub">Bryan School<br>of Business</div>
+      </div>
+    </div>
+    <div class="speaking-quote reveal d2">
+      <div class="sq-mark">"</div>
+      <div class="sq-text">Paul Mengert's depth of experience in local government and community management provides unique, real-world perspectives on key legal and regulatory issues.</div>
+      <div class="sq-attr">— Donald R. Vaughan, Adjunct Professor, Wake Forest University School of Law</div>
+    </div>
+  </div>
+</section>
+
+<!-- MASTERMIND -->
+<section class="mastermind-section" id="mastermind">
+  <div class="container">
+    <div class="mastermind-inner">
+      <div class="mastermind-content reveal">
+        <div class="ey lt"><div class="ey-line"></div><div class="ey-txt">The Mastermind</div></div>
+        <h2 class="h2" style="color:white;margin-bottom:20px">A private circle for leaders who <em style="color:var(--gold-light)">refuse to plateau.</em></h2>
+        <p class="body-t" style="color:rgba(255,255,255,.6);margin-bottom:28px">Every month, a small group of high-performing executives and business owners meets with Paul to work through the real challenges of leading a growing organisation without burning out. Peer accountability. Direct access. Real results.</p>
+        <div class="mastermind-features">
+          <div class="mf-item"><div class="mf-dot"></div><div class="mf-text">Monthly live sessions with Paul — strategy, leadership, and work-life integration</div></div>
+          <div class="mf-item"><div class="mf-dot"></div><div class="mf-text">Maximum 15 members — intimate, high-trust, peer-level group</div></div>
+          <div class="mf-item"><div class="mf-dot"></div><div class="mf-text">Hot seat sessions — bring your real challenges, get real answers</div></div>
+          <div class="mf-item"><div class="mf-dot"></div><div class="mf-text">Access to all digital resources and course materials</div></div>
+        </div>
+        <a href="#cta" class="btn-gold">Apply for a Seat</a>
+      </div>
+      <div class="mastermind-card reveal d2">
+        <div class="mc-label">Mastermind Membership</div>
+        <div class="mc-title">The Tactical Smarts Circle</div>
+        <div style="font-size:.72rem;color:var(--gold);font-weight:600;letter-spacing:.08em;margin-bottom:4px">Maximum 15 members · Applications open</div>
+        <div class="mc-price">$597</div>
+        <div class="mc-period">per month · 6-month commitment</div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff8ec;border:1px solid #e8c96a;border-radius:3px;padding:12px 14px;margin-bottom:16px">
+          <span style="font-size:1.2rem">🔒</span>
+          <span style="font-size:.82rem;font-weight:700;color:#8a6200;line-height:1.4">Limited to <strong style="font-size:1rem">15 members</strong> only.<br><span style="font-weight:400;color:#a07820">Applications reviewed on a rolling basis.</span></span>
+        </div>
+        <div class="mc-items">
+          <div class="mc-item">Monthly group session with Paul (2hrs)</div>
+          <div class="mc-item">Private community & peer support</div>
+          <div class="mc-item">All digital courses included</div>
+          <div class="mc-item">Monthly resource drops &amp; frameworks</div>
+          <div class="mc-item">Priority access to speaking & events</div>
+          <div class="mc-item">Maximum 15 members — exclusive</div>
+        </div>
+        <a href="#cta" class="btn-gold" style="display:block;text-align:center">Apply Now →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISORY -->
+<section class="advisory-section" id="advisory">
+  <div class="container">
+    <div class="advisory-inner">
+      <div class="reveal">
+        <div class="ey lt"><div class="ey-line"></div><div class="ey-txt">1:1 Executive Advisory</div></div>
+        <h2 class="h2" style="color:white;margin-bottom:20px">Direct access to 40 years of <em style="color:var(--gold-light)">hard-won wisdom.</em></h2>
+        <p class="body-t" style="color:rgba(255,255,255,.6);margin-bottom:28px">For senior executives, founders, and business owners who want personal, ongoing advisory from someone who has built a $5B+ business, taught at Harvard, and maintained balance throughout. Maximum 5 clients at any time.</p>
+        <a href="#cta" class="btn-gold" style="margin-right:12px">Enquire About Advisory</a>
+      </div>
+      <div class="advisory-stats reveal d2">
+        <div class="adv-stat">
+          <div class="adv-stat-num">$5B+</div>
+          <div class="adv-stat-label">Assets under management across 6 offices</div>
+        </div>
+        <div class="adv-stat">
+          <div class="adv-stat-num">40yr</div>
+          <div class="adv-stat-label">Building and leading businesses at the highest level</div>
+        </div>
+        <div class="adv-stat">
+          <div class="adv-stat-num">5</div>
+          <div class="adv-stat-label">Maximum advisory clients — deeply personal, never diluted</div>
+        </div>
+        <div class="adv-stat">
+          <div class="adv-stat-num">$2k</div>
+          <div class="adv-stat-label">Per month — direct access to Paul</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="ey reveal" style="justify-content:center"><div class="ey-line" style="background:rgba(28,28,30,.3)"></div><div class="ey-txt" style="color:rgba(28,28,30,.6)">Ready to Begin?</div><div class="ey-line" style="background:rgba(28,28,30,.3)"></div></div>
+      <h2 class="h2 reveal d1" style="color:var(--charcoal)">The best time to start<br><em>was 40 years ago. The second best is now.</em></h2>
+      <p class="body-t reveal d2" style="color:rgba(28,28,30,.65);max-width:500px;margin:14px auto 36px">Whether you want the book, a place in the mastermind, or a conversation about advisory — start here.</p>
+      <div class="cta-btns reveal d3">
+        <a href="mailto:paul@amgworld.com" class="btn-dark">Book a Discovery Call</a>
+        <a href="mailto:paul@amgworld.com" class="btn-outline" style="border-color:rgba(28,28,30,.3);color:var(--charcoal)">Send an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">Paul K. <span>Mengert</span></div>
+      <div class="footer-mid">paulkmengert.com · © 2026</div>
+      <div class="footer-built">Built by <em>Zorian</em></div>
+    </div>
+  </div>
+</footer>
+
+<!-- CHAT WIDGET -->
+<button class="chat-bubble" onclick="toggleChat()">💬</button>
+<div class="chat-window" id="chatWindow">
+  <div class="chat-head">
+    <div class="ch-avatar">P</div>
+    <div class="ch-info">
+      <div class="ch-name">Paul's Assistant</div>
+      <div class="ch-sub">Ask me anything about Paul or the book</div>
+    </div>
+    <button class="ch-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-quick">
+    <button class="cq-btn" onclick="quickSend('Tell me about the book')">The Book</button>
+    <button class="cq-btn" onclick="quickSend('How can I work with Paul?')">Work With Paul</button>
+    <button class="cq-btn" onclick="quickSend('Tell me about the mastermind')">Mastermind</button>
+    <button class="cq-btn" onclick="quickSend('Speaking enquiry')">Speaking</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg bot">Hi! I'm Paul's assistant. Ask me about Tactical Smarts, the mastermind, speaking engagements, or how to work with Paul directly.</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Ask a question..." onkeydown="if(event.key==='Enter')sendMessage()">
+    <button class="chat-send" onclick="sendMessage()">→</button>
+  </div>
+</div>
+
+<script>
+// Scroll reveal
+document.querySelectorAll('.reveal').forEach(el => {
+  new IntersectionObserver(([e]) => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  }, {threshold:.08}).observe(el);
+});
+
+// Chat
+let chatHistory = [];
+function toggleChat() {
+  document.getElementById('chatWindow').classList.toggle('open');
+}
+function quickSend(txt) {
+  document.getElementById('chatInput').value = txt;
+  sendMessage();
+}
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if(!msg) return;
+  input.value = '';
+  addMessage(msg, 'user');
+  chatHistory.push({role:'user', content:msg});
+  const typing = addMessage('...', 'bot');
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:150,
+        system:`You are Paul K. Mengert's personal assistant. Paul is the founder and CEO of Association Management Group (AMG), a Harvard Business School alumnus, CAI Educator of the Year, and author of "Tactical Smarts: Achieving Work-Life Balance". His book offers practical advice on managing professional and personal demands. Products: Ebook $17, Toolkit $97, Self-Paced Course $297, Leadership Mastery Course $497, Mastermind $597/mo, 1:1 Advisory $2,000/mo. Be warm, professional, and concise. Max 100 words. Never make up information.`,
+        messages:chatHistory
+      })
+    });
+    const data = await r.json();
+    const reply = data.content[0].text;
+    typing.textContent = reply;
+    chatHistory.push({role:'assistant', content:reply});
+  } catch(e) {
+    typing.textContent = "I'm having trouble connecting right now. Please email paul@amgworld.com directly.";
+  }
+}
+function addMessage(text, type) {
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.textContent = text;
+  const msgs = document.getElementById('chatMessages');
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+</script>
+</body>
+</html>
